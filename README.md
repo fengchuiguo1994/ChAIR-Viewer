@@ -6,5 +6,22 @@ ChAIR-Viewer is developped for visualization single-cell multi-omic data. For en
 
 ChAIR-Viewer is developped by R, some package are needed.
 ```
+RColorBrewer
+pheatmap
+plotrix
+dplyr
+GenomicRanges
+ggpubr
+ggplot2
+patchwork
+```
 
+# USAGE
+#### 1. Only the two longest and two exon most transcripts are retained (Convenient output of gene annotation track) (Optional)
+```
+python getMaxlengthRNA.py ~/cellranger-7.1.0/genome/refdata-gex-mm10-2020-A/genes/genes.gtf | grep -v "^#" | awk '$3=="exon" || $3=="UTR"'|perl -lane '$id="#";$id=$1 if(/transcript_id "(.+?)"/);$name="#"; $name=$1 if(/gene_name "(.+?)"/); print "$F[0]\t".($F[3]-1)."\t$F[4]\t$id\t$name\t0\t$F[6]\t$F[2]"' > mm10.genome.max.bed
+```
+else
+```
+cat ~/cellranger-7.1.0/genome/refdata-gex-mm10-2020-A/genes/genes.gtf | grep -v "^#" | awk '$3=="exon" || $3=="UTR"'|perl -lane '$id="#";$id=$1 if(/transcript_id "(.+?)"/);$name="#"; $name=$1 if(/gene_name "(.+?)"/); print "$F[0]\t".($F[3]-1)."\t$F[4]\t$id\t$name\t0\t$F[6]\t$F[2]"' > mm10.genome.max.bed
 ```
